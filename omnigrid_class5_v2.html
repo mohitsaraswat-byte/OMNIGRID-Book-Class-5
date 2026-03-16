@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>OMNIGRID – Class 5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+html { font-size:16px; scroll-behavior:smooth; }
+
+body {
+  font-family:'Nunito', sans-serif;
+  background:#FFFBF2;
+  min-height:100vh;
+  min-height:100dvh;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+img, svg { display:block; max-width:100%; }
+
+button { font-family:'Nunito', sans-serif; cursor:pointer; border:none; outline:none; }
+button:focus-visible { outline:3px solid #FF9F43; outline-offset:2px; }
+
+/* ═══════════════════════════════════════
+   SCREENS
+═══════════════════════════════════════ */
+.screen { display:none; min-height:100vh; min-height:100dvh; width:100%; flex-direction:column; }
+.screen.active { display:flex; }
+
+/* ═══════════════════════════════════════
+   ██ SCREEN 1 – WELCOME (REDESIGN)
+   Theme: Illustrated adventure world
+   Sky gradient, stars, floating clouds,
+   bold split layout on desktop,
+   stacked on mobile
+═══════════════════════════════════════ */
+#welcome {
+  background: linear-gradient(175deg, #1A1A6E 0%, #2D2D9F 22%, #4A90D9 55%, #72C3F5 78%, #B8E8FF 100%);
+  position: relative;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+/* Stars layer */
+.star-field {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.star-dot {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+  animation: twinkle var(--dur, 3s) ease-in-out infinite alternate;
+  animation-delay: var(--del, 0s);
+}
+@keyframes twinkle {
+  0%   { opacity: 0.15; transform: scale(0.8); }
+  100% { opacity: 0.95; transform: scale(1.2); }
+}
+
+/* Ground strip */
+.ground {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 28%;
+  background: linear-gradient(180deg, #5DBB63 0%, #3A9B40 60%, #2D7A32 100%);
+  border-radius: 60% 60% 0 0 / 30px 30px 0 0;
+  z-index: 1;
+}
+.ground-hills {
+  position: absolute;
+  bottom: 100%; left: -5%; right: -5%;
+  height: 70px;
+  background: linear-gradient(180deg, transparent 40%, #5DBB63 100%);
+  border-radius: 50%;
+}
+
+/* Clouds */
+.cloud {
+  position: absolute;
+  background: rgba(255,255,255,0.88);
+  border-radius: 50px;
+  z-index: 2;
+  pointer-events: none;
+  animation: cloudDrift var(--spd, 18s) linear infinite;
+}
+.cloud::before, .cloud::after {
+  content: '';
+  position: absolute;
+  background: rgba(255,255,255,0.88);
+  border-radius: 50%;
+}
+@keyframes cloudDrift {
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(120vw); }
+}
+
+/* Sun */
+.sun {
+  position: absolute;
+  top: 6%; right: 8%;
+  width: 80px; height: 80px;
+  background: radial-gradient(circle, #FFE566 30%, #FFD93D 70%, #FFA500 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 40px 15px rgba(255,217,61,0.45);
+  animation: sunPulse 4s ease-in-out infinite;
+  z-index: 2;
+}
+@keyframes sunPulse {
+  0%,100% { box-shadow: 0 0 40px 15px rgba(255,217,61,0.45); }
+  50%      { box-shadow: 0 0 60px 25px rgba(255,217,61,0.65); }
+}
+/* Sun rays */
+.sun-ray {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 6px; height: 22px;
+  background: rgba(255,220,50,0.7);
+  border-radius: 3px;
+  transform-origin: 3px 50px;
+  animation: sunRayRotate 8s linear infinite;
+}
+@keyframes sunRayRotate { to { transform: rotate(360deg); } }
+
+/* Welcome inner layout */
+.welcome-inner {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 20px 16px 40px;
+  gap: 0;
+}
+
+/* OMNIGRID brand at top */
+.brand-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 14px;
+  animation: fadeDown 0.7s ease both;
+}
+@keyframes fadeDown {
+  from { opacity:0; transform:translateY(-24px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.brand-logo {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(34px, 8vw, 56px);
+  color: #fff;
+  text-shadow: 0 4px 0 rgba(0,0,0,0.25), 0 8px 24px rgba(0,0,0,0.2);
+  letter-spacing: 2px;
+  line-height: 1;
+}
+.brand-logo span { color: #FFD93D; }
+.brand-sub {
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(255,255,255,0.4);
+  border-radius: 20px;
+  padding: 5px 18px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  margin-top: 6px;
+  letter-spacing: 0.5px;
+}
+
+/* JoJo + bubble area */
+.jojo-scene {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 10px;
+}
+
+/* Dialogue bubble (above JoJo) */
+.dialogue-bubble {
+  background: #fff;
+  border: 3px solid #FFD93D;
+  border-radius: 22px;
+  padding: 14px 22px;
+  max-width: min(300px, 85vw);
+  min-width: 220px;
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  position: relative;
+  margin-bottom: 12px;
+  animation: bubbleIn 0.5s cubic-bezier(.34,1.56,.64,1) 0.3s both;
+}
+@keyframes bubbleIn {
+  from { opacity:0; transform:scale(0.7) translateY(-10px); }
+  to   { opacity:1; transform:scale(1) translateY(0); }
+}
+.dialogue-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -16px; left: 50%;
+  transform: translateX(-50%);
+  border: 14px solid transparent;
+  border-top: 16px solid #FFD93D;
+}
+.dialogue-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -11px; left: 50%;
+  transform: translateX(-50%);
+  border: 12px solid transparent;
+  border-top: 13px solid #fff;
+  z-index: 1;
+}
+#bubble-text {
+  font-size: clamp(13px, 3.5vw, 16px);
+  font-weight: 800;
+  color: #1A1000;
+  line-height: 1.5;
+  text-align: center;
+}
+.cursor {
+  display: inline-block;
+  width: 2.5px; height: 16px;
+  background: #FF9F43;
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: blink 0.75s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+/* JoJo wrapper */
+.jojo-wrap {
+  position: relative;
+  cursor: pointer;
+  animation: jojoFloat 3.2s ease-in-out infinite;
+  user-select: none;
+  -webkit-user-select: none;
+}
+@keyframes jojoFloat {
+  0%,100% { transform: translateY(0) rotate(-1deg); }
+  50%      { transform: translateY(-14px) rotate(1deg); }
+}
+.jojo-wrap.bounce {
+  animation: jojoBounce 0.55s cubic-bezier(.36,.07,.19,.97) both;
+}
+@keyframes jojoBounce {
+  0%   { transform: scale(1); }
+  20%  { transform: scale(1.18, 0.82); }
+  40%  { transform: scale(0.88, 1.14) translateY(-18px); }
+  60%  { transform: scale(1.05, 0.96); }
+  80%  { transform: scale(0.97, 1.03) translateY(-5px); }
+  100% { transform: scale(1); }
+}
+.jojo-entrance {
+  animation: jojoEntrance 0.85s cubic-bezier(.34,1.56,.64,1) both !important;
+}
+@keyframes jojoEntrance {
+  0%   { transform: scale(0) translateY(60px) rotate(-15deg); opacity:0; }
+  60%  { transform: scale(1.12) translateY(-8px) rotate(4deg); opacity:1; }
+  80%  { transform: scale(0.96) translateY(3px) rotate(-1deg); }
+  100% { transform: scale(1) translateY(0) rotate(0deg); opacity:1; }
+}
+.jojo-glow {
+  position: absolute;
+  top:50%; left:50%;
+  transform: translate(-50%,-50%);
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,220,80,0.3) 0%, transparent 68%);
+  animation: glowPulse 2.8s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes glowPulse {
+  0%,100% { opacity:0.4; transform:translate(-50%,-50%) scale(1); }
+  50%      { opacity:1;   transform:translate(-50%,-50%) scale(1.2); }
+}
+
+/* Tap hint */
+.tap-hint {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.7);
+  margin-top: 4px;
+  animation: hintPulse 2s ease-in-out infinite;
+}
+@keyframes hintPulse {
+  0%,100%{opacity:0.5;} 50%{opacity:1;}
+}
+
+/* CTA Button */
+.enter-btn {
+  display: none;
+  margin-top: 16px;
+  background: linear-gradient(135deg, #FF6B35 0%, #FF9F43 100%);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  padding: clamp(13px,3vw,16px) clamp(32px,8vw,52px);
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(18px, 4.5vw, 22px);
+  letter-spacing: 0.8px;
+  box-shadow: 0 6px 0 #C04A00, 0 10px 28px rgba(255,107,53,0.45);
+  transition: all 0.15s;
+  animation: btnPop 0.5s cubic-bezier(.34,1.56,.64,1) both;
+  position: relative;
+  top: 0;
+}
+@keyframes btnPop {
+  from { opacity:0; transform:scale(0.7); }
+  to   { opacity:1; transform:scale(1); }
+}
+.enter-btn:hover  { transform:translateY(-3px); box-shadow:0 9px 0 #C04A00, 0 14px 32px rgba(255,107,53,0.5); }
+.enter-btn:active { transform:translateY(3px);  box-shadow:0 3px 0 #C04A00, 0 5px 16px rgba(255,107,53,0.3); top:3px; }
+
+/* Decorative trees on ground */
+.tree {
+  position: absolute;
+  bottom: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Sparkles */
+.sparkle-item {
+  position: fixed;
+  font-size: 20px;
+  pointer-events: none;
+  z-index: 999;
+  animation: sparkleUp 1.1s ease-out forwards;
+}
+@keyframes sparkleUp {
+  0%   { opacity:1; transform:translateY(0) scale(1) rotate(0deg); }
+  100% { opacity:0; transform:translateY(-100px) scale(0.2) rotate(180deg); }
+}
+
+/* ═══════════════════════════════════════
+   ██ SCREEN 2 – SUBJECTS
+═══════════════════════════════════════ */
+#subjects { background: #FFFBF2; overflow-y: auto; }
+
+.subj-header {
+  background: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.09);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.subj-logo {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(22px, 5vw, 28px);
+  background: linear-gradient(135deg, #FF6B35, #FF9F43, #FFD93D);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.header-class {
+  font-family: 'Fredoka One', cursive;
+  font-size: 14px;
+  color: #FF6B35;
+}
+.jojo-mini {
+  cursor: pointer;
+  animation: jojoFloat 3s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.jojo-mini:hover { transform: scale(1.12); }
+
+.subj-hero {
+  text-align: center;
+  padding: clamp(16px, 4vw, 28px) 16px 8px;
+}
+.subj-hero h2 {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(22px, 5.5vw, 30px);
+  color: #FF6B35;
+  margin-bottom: 4px;
+}
+.subj-hero p {
+  font-size: clamp(13px, 3.2vw, 15px);
+  color: #7A5C3A;
+  font-weight: 700;
+}
+
+.subjects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(12px, 3vw, 20px);
+  padding: clamp(14px, 4vw, 22px) clamp(12px, 4vw, 28px) clamp(80px,18vw,100px);
+  max-width: 820px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media (max-width: 480px) {
+  .subjects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 12px 12px 90px;
+  }
+}
+
+.subj-card {
+  border-radius: clamp(16px, 4vw, 24px);
+  padding: clamp(18px, 4vw, 28px) 10px clamp(14px, 3.5vw, 22px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform 0.22s cubic-bezier(.4,0,.2,1), box-shadow 0.22s;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+  position: relative;
+  overflow: hidden;
+  border: 3px solid rgba(255,255,255,0.5);
+  animation: cardIn 0.5s ease both;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+@keyframes cardIn {
+  from { opacity:0; transform:translateY(28px) scale(0.9); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
+}
+.subj-card:hover  { transform:translateY(-6px) scale(1.04); box-shadow:0 14px 36px rgba(0,0,0,0.18); }
+.subj-card:active { transform:scale(0.95); }
+.card-shine {
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  pointer-events: none;
+}
+.subj-icon {
+  font-size: clamp(36px, 8vw, 52px);
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.14));
+  line-height: 1;
+}
+.subj-name {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(14px, 3.5vw, 19px);
+  text-align: center;
+  line-height: 1.2;
+}
+.subj-chapters {
+  font-size: clamp(10px, 2.5vw, 12px);
+  font-weight: 800;
+  background: rgba(0,0,0,0.12);
+  border-radius: 10px;
+  padding: 3px 10px;
+}
+
+/* Floating JoJo tip */
+.jojo-float-msg {
+  position: fixed;
+  bottom: 18px; right: 16px;
+  z-index: 50;
+  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+.jojo-float-bubble {
+  background: #fff;
+  border: 2.5px solid #FFD93D;
+  border-radius: 14px;
+  padding: 9px 14px;
+  font-size: clamp(11px, 3vw, 13px);
+  font-weight: 800;
+  color: #2D1800;
+  box-shadow: 0 4px 18px rgba(255,180,60,0.22);
+  max-width: min(190px, 55vw);
+  text-align: center;
+  position: relative;
+}
+.jojo-float-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -12px; right: 18px;
+  border: 10px solid transparent;
+  border-top: 12px solid #FFD93D;
+}
+.jojo-float-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -8px; right: 20px;
+  border: 8px solid transparent;
+  border-top: 10px solid #fff;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════
+   ██ SCREEN 3 – CHAPTER VIEW
+═══════════════════════════════════════ */
+#chapter-view { background: #FFFBF2; overflow-y: auto; }
+
+.chap-header {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.14);
+}
+.back-btn {
+  background: rgba(255,255,255,0.28);
+  border-radius: 12px;
+  padding: 8px 14px;
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(14px, 3.5vw, 16px);
+  transition: background 0.18s;
+  flex-shrink: 0;
+}
+.back-btn:hover { background: rgba(255,255,255,0.45); }
+.chap-header-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(18px, 4.5vw, 22px);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.chap-header-icon { font-size: clamp(22px, 5vw, 28px); flex-shrink: 0; }
+
+.chap-content {
+  padding: clamp(16px, 4vw, 26px);
+  max-width: 700px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.chap-welcome {
+  background: #fff;
+  border-radius: clamp(16px, 4vw, 22px);
+  padding: clamp(14px, 3.5vw, 20px) clamp(14px, 4vw, 22px);
+  margin-bottom: 18px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 3vw, 18px);
+  border-left: 6px solid #FFD93D;
+}
+.chap-welcome-text h3 {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(15px, 4vw, 20px);
+  margin-bottom: 3px;
+}
+.chap-welcome-text p {
+  font-size: clamp(11px, 2.8vw, 13px);
+  color: #7A5C3A;
+  font-weight: 700;
+}
+
+.chap-list-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(16px, 4vw, 20px);
+  color: #444;
+  margin-bottom: 12px;
+}
+
+.chap-item {
+  background: #fff;
+  border-radius: clamp(12px, 3vw, 16px);
+  padding: clamp(12px, 3vw, 16px) clamp(14px, 3.5vw, 20px);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 3vw, 16px);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  border: 2.5px solid transparent;
+  touch-action: manipulation;
+}
+.chap-item:hover  { transform:translateX(6px); box-shadow:0 6px 22px rgba(0,0,0,0.12); }
+.chap-item:active { transform:scale(0.97); }
+.chap-num {
+  width: clamp(32px,8vw,40px);
+  height: clamp(32px,8vw,40px);
+  border-radius: clamp(8px,2vw,12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(13px,3.5vw,16px);
+  color: #fff;
+  flex-shrink: 0;
+}
+.chap-info { flex: 1; min-width: 0; }
+.chap-info h4 {
+  font-size: clamp(13px, 3.2vw, 15px);
+  font-weight: 800;
+  color: #1E1E1E;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.chap-info span {
+  font-size: clamp(10px, 2.5vw, 12px);
+  color: #aaa;
+  font-weight: 700;
+}
+.chap-arrow { font-size: 20px; color: #ddd; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════
+     SCREEN 1 — WELCOME
+════════════════════════════════════ -->
+<div class="screen active" id="welcome">
+
+  <!-- Star field (built by JS) -->
+  <div class="star-field" id="star-field"></div>
+
+  <!-- Sun -->
+  <div class="sun">
+    <div class="sun-ray" style="transform:rotate(0deg) translateX(-3px)"></div>
+    <div class="sun-ray" style="transform:rotate(45deg) translateX(-3px)"></div>
+    <div class="sun-ray" style="transform:rotate(90deg) translateX(-3px)"></div>
+    <div class="sun-ray" style="transform:rotate(135deg) translateX(-3px)"></div>
+    <div class="sun-ray" style="transform:rotate(180deg) translateX(-3px)"></div>
+    <div class="sun-ray" style="transform:rotate(225deg) translateX(-3px)"></div>
+    <div class="sun-ray" style="transform:rotate(270deg) translateX(-3px)"></div>
+    <div class="sun-ray" style="transform:rotate(315deg) translateX(-3px)"></div>
+  </div>
+
+  <!-- Clouds (built by JS) -->
+  <div id="cloud-layer"></div>
+
+  <!-- Ground -->
+  <div class="ground">
+    <div class="ground-hills"></div>
+  </div>
+
+  <!-- Trees (SVG inline) -->
+  <svg class="tree" style="left:3%;bottom:22%;width:clamp(36px,8vw,60px)" viewBox="0 0 40 60" fill="none">
+    <rect x="17" y="38" width="6" height="22" rx="2" fill="#6B3A1F"/>
+    <polygon points="20,0 38,40 2,40" fill="#2E7D32"/>
+    <polygon points="20,10 36,44 4,44" fill="#388E3C"/>
+    <polygon points="20,20 34,48 6,48" fill="#43A047"/>
+  </svg>
+  <svg class="tree" style="right:5%;bottom:24%;width:clamp(28px,6vw,48px)" viewBox="0 0 40 60" fill="none">
+    <rect x="17" y="38" width="6" height="22" rx="2" fill="#6B3A1F"/>
+    <polygon points="20,0 38,40 2,40" fill="#1B5E20"/>
+    <polygon points="20,12 35,44 5,44" fill="#2E7D32"/>
+  </svg>
+  <svg class="tree" style="left:18%;bottom:20%;width:clamp(22px,5vw,38px)" viewBox="0 0 40 60" fill="none">
+    <rect x="17" y="38" width="6" height="22" rx="2" fill="#6B3A1F"/>
+    <polygon points="20,2 36,42 4,42" fill="#388E3C"/>
+  </svg>
+  <svg class="tree" style="right:20%;bottom:22%;width:clamp(26px,6vw,44px)" viewBox="0 0 40 60" fill="none">
+    <rect x="17" y="38" width="6" height="22" rx="2" fill="#6B3A1F"/>
+    <polygon points="20,0 37,42 3,42" fill="#2E7D32"/>
+    <polygon points="20,14 34,46 6,46" fill="#43A047"/>
+  </svg>
+
+  <!-- Welcome content -->
+  <div class="welcome-inner">
+
+    <!-- Brand -->
+    <div class="brand-top">
+      <div class="brand-logo">OMNI<span>GRID</span></div>
+      <div class="brand-sub">📚 Class 5 · Digital Book</div>
+    </div>
+
+    <!-- JoJo scene -->
+    <div class="jojo-scene">
+      <!-- Bubble above JoJo -->
+      <div class="dialogue-bubble">
+        <div id="bubble-text"><span class="cursor"></span></div>
+      </div>
+
+      <!-- JoJo -->
+      <div class="jojo-wrap jojo-entrance" id="jojo-welcome" onclick="pokeJoJo()">
+        <div class="jojo-glow"></div>
+        <svg id="welcome-svg" viewBox="0 0 80 100"
+             width="clamp(140px,35vw,185px)" height="clamp(170px,43vw,225px)"
+             style="width:clamp(140px,35vw,185px);height:auto;filter:drop-shadow(0 12px 30px rgba(0,0,0,0.28))">
+          <ellipse cx="40" cy="97" rx="22" ry="5" fill="rgba(0,0,0,0.15)"/>
+          <!-- Ears -->
+          <ellipse cx="9"  cy="48" rx="8" ry="10" fill="#FFD166"/>
+          <ellipse cx="9"  cy="48" rx="4.5" ry="6.5" fill="#FFB347"/>
+          <ellipse cx="71" cy="48" rx="8" ry="10" fill="#FFD166"/>
+          <ellipse cx="71" cy="48" rx="4.5" ry="6.5" fill="#FFB347"/>
+          <!-- Head -->
+          <ellipse cx="40" cy="46" rx="29" ry="32" fill="#FFD166"/>
+          <ellipse cx="30" cy="26" rx="8" ry="5" fill="rgba(255,255,255,0.28)" transform="rotate(-20,30,26)"/>
+          <!-- Hat brim -->
+          <rect x="11" y="17" width="58" height="9" rx="4.5" fill="#FF6B35"/>
+          <!-- Hat top -->
+          <rect x="20" y="3"  width="40" height="17" rx="7" fill="#FF8C5A"/>
+          <rect x="26" y="4"  width="8"  height="14" rx="4" fill="rgba(255,255,255,0.18)"/>
+          <text x="40" y="14" font-size="10" fill="#fff" text-anchor="middle" font-family="Arial">★</text>
+          <!-- Shirt -->
+          <rect x="20" y="74" width="40" height="20" rx="10" fill="#FF6B35"/>
+          <polygon points="35,74 45,74 40,84" fill="white" opacity="0.85"/>
+          <text x="40" y="88" font-size="5.5" fill="#ffe8d6" text-anchor="middle" font-family="Arial" font-weight="bold">JOJO</text>
+          <!-- Arms -->
+          <rect x="9"  y="75" width="12" height="20" rx="6" fill="#FF6B35" transform="rotate(-10,15,75)"/>
+          <rect x="59" y="75" width="12" height="20" rx="6" fill="#FF6B35" transform="rotate(10,65,75)"/>
+          <!-- Blush -->
+          <ellipse id="wbl" cx="20" cy="54" rx="7" ry="4" fill="#FF9999" opacity="0.65"/>
+          <ellipse id="wbr" cx="60" cy="54" rx="7" ry="4" fill="#FF9999" opacity="0.65"/>
+          <!-- Eyebrows -->
+          <path id="webl" d="M18,28 Q26,23 34,28" stroke="#7c5c2e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path id="webr" d="M46,28 Q54,23 62,28" stroke="#7c5c2e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- Eye whites -->
+          <ellipse cx="27" cy="38" rx="8" ry="8" fill="white"/>
+          <ellipse cx="53" cy="38" rx="8" ry="8" fill="white"/>
+          <!-- Pupils -->
+          <circle id="wpl" cx="27" cy="38" r="4.5" fill="#1E1000"/>
+          <circle id="wpr" cx="53" cy="38" r="4.5" fill="#1E1000"/>
+          <!-- Eye shine -->
+          <circle cx="25" cy="35" r="1.8" fill="white" opacity="0.85"/>
+          <circle cx="51" cy="35" r="1.8" fill="white" opacity="0.85"/>
+          <!-- Wink line (hidden) -->
+          <path id="wwink" d="M46,36 Q53,42 60,36" stroke="#1E1000" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0"/>
+          <!-- Nose -->
+          <ellipse cx="40" cy="46" rx="3" ry="2" fill="#e8a020" opacity="0.6"/>
+          <!-- Mouth -->
+          <path id="wmouth" d="M30,56 Q40,65 50,56" stroke="#B84A00" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="tap-hint">👆 Tap JoJo to say hi!</div>
+    </div>
+
+    <!-- CTA -->
+    <button class="enter-btn" id="enter-btn" onclick="goToSubjects()">
+      Let's Go! 🚀
+    </button>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SCREEN 2 — SUBJECTS
+════════════════════════════════════ -->
+<div class="screen" id="subjects">
+  <div class="subj-header">
+    <div class="subj-logo">OMNIGRID</div>
+    <div class="header-class">Class 5 📚</div>
+    <div class="jojo-mini" onclick="miniJoJoClick()" title="Ask JoJo">
+      <svg viewBox="0 0 80 100" width="44" height="52">
+        <ellipse cx="9"  cy="48" rx="7" ry="9" fill="#FFD166"/>
+        <ellipse cx="71" cy="48" rx="7" ry="9" fill="#FFD166"/>
+        <ellipse cx="40" cy="46" rx="28" ry="30" fill="#FFD166"/>
+        <rect x="12" y="18" width="56" height="8" rx="4" fill="#FF6B35"/>
+        <rect x="22" y="5"  width="36" height="16" rx="6" fill="#FF8C5A"/>
+        <text x="40" y="16" font-size="9" fill="#fff" text-anchor="middle">★</text>
+        <ellipse cx="27" cy="38" rx="7" ry="7" fill="white"/>
+        <ellipse cx="53" cy="38" rx="7" ry="7" fill="white"/>
+        <circle cx="27" cy="38" r="4" fill="#1E1000"/>
+        <circle cx="53" cy="38" r="4" fill="#1E1000"/>
+        <circle cx="25" cy="35" r="1.5" fill="white"/>
+        <circle cx="51" cy="35" r="1.5" fill="white"/>
+        <ellipse cx="20" cy="53" rx="6" ry="3.5" fill="#FF9999" opacity="0.65"/>
+        <ellipse cx="60" cy="53" rx="6" ry="3.5" fill="#FF9999" opacity="0.65"/>
+        <path d="M30,56 Q40,64 50,56" stroke="#B84A00" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <rect x="22" y="74" width="36" height="18" rx="9" fill="#FF6B35"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="subj-hero">
+    <h2>What do you want to learn? 🎯</h2>
+    <p>Pick a subject and start your adventure!</p>
+  </div>
+
+  <div class="subjects-grid">
+    <div class="subj-card" style="background:linear-gradient(145deg,#FFD93D,#F4C200);animation-delay:0.05s" onclick="openSubject('maths')">
+      <div class="card-shine"></div>
+      <div class="subj-icon">🔢</div>
+      <div class="subj-name" style="color:#5A2800;">Mathematics</div>
+      <div class="subj-chapters" style="color:#5A2800;">14 Chapters</div>
+    </div>
+    <div class="subj-card" style="background:linear-gradient(145deg,#06D6A0,#00B884);animation-delay:0.10s" onclick="openSubject('science')">
+      <div class="card-shine"></div>
+      <div class="subj-icon">🔬</div>
+      <div class="subj-name" style="color:#002A1E;">Science</div>
+      <div class="subj-chapters" style="color:#002A1E;">15 Chapters</div>
+    </div>
+    <div class="subj-card" style="background:linear-gradient(145deg,#4CC9F0,#1AAFDC);animation-delay:0.15s" onclick="openSubject('english')">
+      <div class="card-shine"></div>
+      <div class="subj-icon">📖</div>
+      <div class="subj-name" style="color:#002233;">English</div>
+      <div class="subj-chapters" style="color:#002233;">10 Chapters</div>
+    </div>
+    <div class="subj-card" style="background:linear-gradient(145deg,#56CFE1,#2EB8CC);animation-delay:0.20s" onclick="openSubject('evs')">
+      <div class="card-shine"></div>
+      <div class="subj-icon">🌿</div>
+      <div class="subj-name" style="color:#00303A;">EVS</div>
+      <div class="subj-chapters" style="color:#00303A;">22 Chapters</div>
+    </div>
+    <div class="subj-card" style="background:linear-gradient(145deg,#FF9F43,#E07B00);animation-delay:0.25s" onclick="openSubject('hindi')">
+      <div class="card-shine"></div>
+      <div class="subj-icon">🪔</div>
+      <div class="subj-name" style="color:#2D0F00;">Hindi</div>
+      <div class="subj-chapters" style="color:#2D0F00;">18 Chapters</div>
+    </div>
+    <div class="subj-card" style="background:linear-gradient(145deg,#C77DFF,#A855F7);animation-delay:0.30s" onclick="openSubject('sst')">
+      <div class="card-shine"></div>
+      <div class="subj-icon">🌍</div>
+      <div class="subj-name" style="color:#1A0030;">Social Studies</div>
+      <div class="subj-chapters" style="color:#1A0030;">20 Chapters</div>
+    </div>
+  </div>
+
+  <!-- Floating JoJo -->
+  <div class="jojo-float-msg" id="float-jojo">
+    <div class="jojo-float-bubble" id="float-bubble">Click any subject to begin! 😊</div>
+    <div class="jojo-mini" onclick="miniJoJoClick()">
+      <svg viewBox="0 0 80 100" width="50" height="60">
+        <ellipse cx="9"  cy="48" rx="7" ry="9" fill="#FFD166"/>
+        <ellipse cx="71" cy="48" rx="7" ry="9" fill="#FFD166"/>
+        <ellipse cx="40" cy="46" rx="28" ry="30" fill="#FFD166"/>
+        <rect x="12" y="18" width="56" height="8" rx="4" fill="#FF6B35"/>
+        <rect x="22" y="5"  width="36" height="16" rx="6" fill="#FF8C5A"/>
+        <text x="40" y="16" font-size="9" fill="#fff" text-anchor="middle">★</text>
+        <ellipse cx="27" cy="38" rx="7" ry="7" fill="white"/>
+        <ellipse cx="53" cy="38" rx="7" ry="7" fill="white"/>
+        <circle cx="27" cy="38" r="4" fill="#1E1000"/>
+        <circle cx="53" cy="38" r="4" fill="#1E1000"/>
+        <circle cx="25" cy="35" r="1.5" fill="white"/>
+        <circle cx="51" cy="35" r="1.5" fill="white"/>
+        <ellipse cx="20" cy="53" rx="6" ry="3.5" fill="#FF9999" opacity="0.65"/>
+        <ellipse cx="60" cy="53" rx="6" ry="3.5" fill="#FF9999" opacity="0.65"/>
+        <path d="M30,56 Q40,64 50,56" stroke="#B84A00" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <rect x="22" y="74" width="36" height="18" rx="9" fill="#FF6B35"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SCREEN 3 — CHAPTER VIEW
+════════════════════════════════════ -->
+<div class="screen" id="chapter-view">
+  <div class="chap-header" id="chap-header">
+    <button class="back-btn" id="chap-back-btn" onclick="goBack()">← Back</button>
+    <div class="chap-header-title" id="chap-title">Mathematics</div>
+    <div class="chap-header-icon" id="chap-icon">🔢</div>
+  </div>
+  <div class="chap-content">
+    <div class="chap-welcome" id="chap-welcome-bar">
+      <svg viewBox="0 0 80 100" width="52" height="64" style="flex-shrink:0">
+        <ellipse cx="9"  cy="48" rx="7" ry="9" fill="#FFD166"/>
+        <ellipse cx="71" cy="48" rx="7" ry="9" fill="#FFD166"/>
+        <ellipse cx="40" cy="46" rx="28" ry="30" fill="#FFD166"/>
+        <rect x="12" y="18" width="56" height="8" rx="4" fill="#FF6B35"/>
+        <rect x="22" y="5"  width="36" height="16" rx="6" fill="#FF8C5A"/>
+        <text x="40" y="16" font-size="9" fill="#fff" text-anchor="middle">★</text>
+        <ellipse cx="27" cy="38" rx="7" ry="7" fill="white"/>
+        <ellipse cx="53" cy="38" rx="7" ry="7" fill="white"/>
+        <circle cx="27" cy="38" r="4" fill="#1E1000"/>
+        <circle cx="53" cy="38" r="4" fill="#1E1000"/>
+        <circle cx="25" cy="35" r="1.5" fill="white"/>
+        <circle cx="51" cy="35" r="1.5" fill="white"/>
+        <ellipse cx="20" cy="53" rx="6" ry="3.5" fill="#FF9999" opacity="0.65"/>
+        <ellipse cx="60" cy="53" rx="6" ry="3.5" fill="#FF9999" opacity="0.65"/>
+        <path d="M30,56 Q40,64 50,56" stroke="#B84A00" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <rect x="22" y="74" width="36" height="18" rx="9" fill="#FF6B35"/>
+      </svg>
+      <div class="chap-welcome-text">
+        <h3 id="chap-jojo-msg">Let's learn Maths! 🔢</h3>
+        <p id="chap-jojo-sub">Pick a chapter and let's begin your adventure!</p>
+      </div>
+    </div>
+    <div class="chap-list-title" id="chap-list-title">📋 Chapters</div>
+    <div id="chap-list"></div>
+  </div>
+</div>
+
+<script>
+/* ══ Build stars ══════════════════════════════ */
+(function(){
+  const sf = document.getElementById('star-field');
+  for(let i=0;i<55;i++){
+    const s = document.createElement('div');
+    s.className = 'star-dot';
+    const sz = Math.random()*3+1;
+    s.style.cssText = `
+      width:${sz}px;height:${sz}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*65}%;
+      --dur:${2+Math.random()*4}s;
+      --del:${Math.random()*4}s;
+    `;
+    sf.appendChild(s);
+  }
+})();
+
+/* ══ Build clouds ═════════════════════════════ */
+(function(){
+  const cl = document.getElementById('cloud-layer');
+  const clouds = [
+    {w:120,h:38,top:'12%',spd:'22s',del:'0s',op:0.82},
+    {w:90, h:28,top:'20%',spd:'30s',del:'8s', op:0.70},
+    {w:150,h:44,top:'8%', spd:'18s',del:'14s',op:0.88},
+    {w:80, h:25,top:'28%',spd:'26s',del:'5s', op:0.65},
+    {w:110,h:34,top:'16%',spd:'34s',del:'20s',op:0.75},
+  ];
+  clouds.forEach(c=>{
+    const d = document.createElement('div');
+    d.className = 'cloud';
+    d.style.cssText = `
+      width:${c.w}px;height:${c.h}px;
+      top:${c.top};left:-160px;
+      opacity:${c.op};
+      --spd:${c.spd};
+      animation-delay:${c.del};
+    `;
+    d.style.setProperty('--spd',c.spd);
+    d.style.animation = `cloudDrift ${c.spd} linear ${c.del} infinite`;
+    // Puff bumps
+    d.style.borderRadius = '50px';
+    const b1 = document.createElement('div');
+    b1.style.cssText=`width:${c.w*0.45}px;height:${c.h*1.3}px;top:-${c.h*0.35}px;left:${c.w*0.18}px;border-radius:50%;position:absolute;background:inherit`;
+    d.style.background='rgba(255,255,255,0.88)';
+    b1.style.background='rgba(255,255,255,0.88)';
+    const b2 = document.createElement('div');
+    b2.style.cssText=`width:${c.w*0.35}px;height:${c.h*1.1}px;top:-${c.h*0.25}px;left:${c.w*0.5}px;border-radius:50%;position:absolute;background:rgba(255,255,255,0.88)`;
+    d.appendChild(b1); d.appendChild(b2);
+    cl.appendChild(d);
+  });
+})();
+
+/* ══ Subject data ═════════════════════════════ */
+const subjects = {
+  maths:{
+    name:"Mathematics",icon:"🔢",
+    headerBg:"linear-gradient(135deg,#FFD93D,#F4A800)",
+    headerTxt:"#4A2000",
+    numBg:"linear-gradient(135deg,#FF9F43,#E07B00)",
+    borderCol:"#FFD93D",
+    jojoMsg:"Let's crush some Maths today! 🔢💪",
+    jojoSub:"Numbers, shapes & patterns — all fun!",
+    chapters:["The Fish Tale","Shapes and Angles","How Many Squares?","Parts and Wholes","Does it Look the Same?","Be My Multiple","Can You See the Pattern?","Mapping Your Way","Boxes and Sketches","Tenths and Hundredths","Area and its Boundary","Smart Charts","Ways to Multiply and Divide","How Big? How Heavy?"]
+  },
+  science:{
+    name:"Science",icon:"🔬",
+    headerBg:"linear-gradient(135deg,#06D6A0,#009E6E)",
+    headerTxt:"#001F16",
+    numBg:"linear-gradient(135deg,#06D6A0,#009E6E)",
+    borderCol:"#06D6A0",
+    jojoMsg:"Science is everywhere! Let's explore! 🔬🌱",
+    jojoSub:"Discover the world around you!",
+    chapters:["Super Senses","A Snake Charmer's Story","From Tasting to Digesting","Mangoes Round the Year","Seeds and Seeds","Every Drop Counts","Experiment with Water","A Treat for Mosquitoes","Up You Go!","Walls Tell Stories","Sunita in Space","What if it Finishes?","A Shelter So High!","When the Earth Shook!","Blow Hot Blow Cold"]
+  },
+  english:{
+    name:"English",icon:"📖",
+    headerBg:"linear-gradient(135deg,#4CC9F0,#0095C2)",
+    headerTxt:"#001826",
+    numBg:"linear-gradient(135deg,#4CC9F0,#0095C2)",
+    borderCol:"#4CC9F0",
+    jojoMsg:"Words are magical! Let's read! 📖✨",
+    jojoSub:"Stories, poems & fun with language!",
+    chapters:["Ice Cream Man","Wonderful Waste!","Teamwork","Flying Together","My Shadow","Robinson Crusoe","The Talkative Barber","Gulliver's Travels","Nobody's Friend","Who Will be Ningthou?"]
+  },
+  evs:{
+    name:"EVS",icon:"🌿",
+    headerBg:"linear-gradient(135deg,#56CFE1,#189AAD)",
+    headerTxt:"#00212A",
+    numBg:"linear-gradient(135deg,#56CFE1,#189AAD)",
+    borderCol:"#56CFE1",
+    jojoMsg:"Let's take care of our planet! 🌿🌍",
+    jojoSub:"Animals, plants, water & our world!",
+    chapters:["Super Senses","A Snake Charmer's Story","From Tasting to Digesting","Mangoes Round the Year","Seeds and Seeds","Every Drop Counts","Experiment with Water","A Treat for Mosquitoes","Up You Go!","Walls Tell Stories","Sunita in Space","What if it Finishes?","A Shelter So High!","When the Earth Shook!","Blow Hot Blow Cold","Who Will Do This Work?","Across the Wall","No Place for Us?","A Seed Tells a Farmer's Story","Whose Forests?","Like Father Like Daughter","On the Move Again"]
+  },
+  hindi:{
+    name:"Hindi",icon:"🪔",
+    headerBg:"linear-gradient(135deg,#FF9F43,#C05E00)",
+    headerTxt:"#1A0800",
+    numBg:"linear-gradient(135deg,#FF9F43,#C05E00)",
+    borderCol:"#FF9F43",
+    jojoMsg:"हिन्दी सीखना बड़ा मज़ेदार है! 🪔",
+    jojoSub:"कहानियाँ, कविताएँ और बहुत कुछ!",
+    chapters:["राख की रस्सी","फ़सलों के त्योहार","खिलौनेवाला","नन्हा फ़नकार","जहाँ चाह वहाँ राह","चिट्ठी का सफ़र","डाकिए की कहानी, कँवरसिंह की ज़ुबानी","वे दिन भी क्या दिन थे","एक माँ की बेबसी","जो देखकर भी नहीं देखते","चावल की रोटियाँ","गुरु और चेला","स्वामी की दादी","बाघ आया उस रात","बिशन की दिलेरी","पानी रे पानी","छोटी-सी हमारी नदी","चुनौती हिमालय की"]
+  },
+  sst:{
+    name:"Social Studies",icon:"🌍",
+    headerBg:"linear-gradient(135deg,#C77DFF,#8B2FE0)",
+    headerTxt:"#10001E",
+    numBg:"linear-gradient(135deg,#C77DFF,#8B2FE0)",
+    borderCol:"#C77DFF",
+    jojoMsg:"Let's explore our world together! 🌍🗺️",
+    jojoSub:"History, geography & our community!",
+    chapters:["The Earth in the Solar System","Globe: Latitudes and Longitudes","Motions of the Earth","Maps","Major Domains of the Earth","Major Landforms of the Earth","Our Country India","India: Climate, Vegetation and Wildlife","What, Where, How and When?","From Hunting-Gathering to Growing Food","In the Earliest Cities","What Books and Burials Tell Us","Kingdoms, Kings and an Early Republic","New Questions and Ideas","Ashoka, The Emperor Who Gave Up War","Vital Villages, Thriving Towns","Traders, Kings and Pilgrims","New Empires and Kingdoms","Buildings, Paintings and Books","Understanding Diversity"]
+  }
+};
+
+/* ══ Typing ═══════════════════════════════════ */
+const messages = [
+  { txt:"Hi Champ! 👋 Welcome to OMNIGRID!", delay:68 },
+  { txt:"I'm JoJo, your study buddy! 🎓",   delay:68 },
+  { txt:"What would you like to learn today? 😊", delay:62 }
+];
+let mIdx=0, cIdx=0, going=true;
+
+function typeNext(){
+  const el = document.getElementById('bubble-text');
+  if(!el) return;
+  if(mIdx >= messages.length){
+    el.innerHTML = messages[messages.length-1].txt + '<span class="cursor"></span>';
+    document.getElementById('enter-btn').style.display = 'inline-block';
+    return;
+  }
+  const {txt, delay} = messages[mIdx];
+  if(going){
+    if(cIdx <= txt.length){
+      el.innerHTML = txt.slice(0,cIdx) + '<span class="cursor"></span>';
+      cIdx++;
+      setTimeout(typeNext, delay);
+    } else {
+      going = false;
+      setTimeout(typeNext, mIdx < messages.length-1 ? 1500 : 700);
+    }
+  } else {
+    mIdx++; cIdx=0; going=true;
+    if(mIdx < messages.length) setTimeout(typeNext, 380);
+    else {
+      el.innerHTML = messages[messages.length-1].txt + '<span class="cursor"></span>';
+      document.getElementById('enter-btn').style.display = 'inline-block';
+    }
+  }
+}
+
+/* ══ JoJo interactions ════════════════════════ */
+function pokeJoJo(){
+  const wrap = document.getElementById('jojo-welcome');
+  const svg  = document.getElementById('welcome-svg');
+  // Bounce
+  wrap.classList.remove('bounce');
+  void wrap.offsetWidth;
+  wrap.classList.add('bounce');
+  wrap.addEventListener('animationend', ()=>{
+    wrap.classList.remove('bounce');
+    wrap.style.animation = 'jojoFloat 3.2s ease-in-out infinite';
+  },{once:true});
+  // Wink
+  svg.getElementById('wpr').style.opacity='0';
+  svg.getElementById('wwink').style.opacity='1';
+  svg.getElementById('wmouth').setAttribute('d','M30,56 Q40,66 50,56');
+  spawnSparkles();
+  setTimeout(()=>{
+    svg.getElementById('wpr').style.opacity='1';
+    svg.getElementById('wwink').style.opacity='0';
+    svg.getElementById('wmouth').setAttribute('d','M30,56 Q40,65 50,56');
+  },950);
+}
+
+function spawnSparkles(){
+  ['✨','⭐','🌟','💫','🎉','🎊'].forEach((em,i)=>{
+    const el = document.createElement('div');
+    el.className = 'sparkle-item';
+    el.textContent = em;
+    el.style.left  = (18 + Math.random()*64) + '%';
+    el.style.top   = (10 + Math.random()*50) + '%';
+    el.style.animationDelay = (i*0.09) + 's';
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(), 1300);
+  });
+}
+
+/* ══ Navigation ═══════════════════════════════ */
+function goToSubjects(){
+  showScreen('subjects');
+  setTimeout(()=>{
+    const fj = document.getElementById('float-jojo');
+    fj.style.display = 'flex';
+  }, 500);
+}
+
+function openSubject(key){
+  const s = subjects[key];
+  if(!s) return;
+  const hdr = document.getElementById('chap-header');
+  hdr.style.background = s.headerBg;
+  hdr.style.color = s.headerTxt;
+  document.getElementById('chap-back-btn').style.color = s.headerTxt;
+  document.getElementById('chap-title').textContent = s.name;
+  document.getElementById('chap-title').style.color = s.headerTxt;
+  document.getElementById('chap-icon').textContent = s.icon;
+  document.getElementById('chap-jojo-msg').textContent = s.jojoMsg;
+  document.getElementById('chap-jojo-msg').style.color = '#1E1E1E';
+  document.getElementById('chap-jojo-sub').textContent = s.jojoSub;
+  document.getElementById('chap-welcome-bar').style.borderLeftColor = s.borderCol;
+  document.getElementById('chap-list-title').textContent = '📋 ' + s.name + ' Chapters';
+
+  const list = document.getElementById('chap-list');
+  list.innerHTML = '';
+  s.chapters.forEach((ch,i)=>{
+    const div = document.createElement('div');
+    div.className = 'chap-item';
+    div.innerHTML = `
+      <div class="chap-num" style="background:${s.numBg}">${i+1}</div>
+      <div class="chap-info">
+        <h4>${ch}</h4>
+        <span>Chapter ${i+1} · Tap to open</span>
+      </div>
+      <div class="chap-arrow">›</div>`;
+    div.style.animation = `cardIn 0.4s ease ${i*0.04}s both`;
+    div.onmouseover = ()=> div.style.borderColor = s.borderCol+'66';
+    div.onmouseout  = ()=> div.style.borderColor = 'transparent';
+    div.onclick = ()=>{
+      spawnSparkles();
+      setTimeout(()=>alert(`📖 Opening "${ch}" from ${s.name}!\n\n(Lesson content coming soon!)`), 200);
+    };
+    list.appendChild(div);
+  });
+  showScreen('chapter-view');
+  document.getElementById('chapter-view').scrollTop = 0;
+}
+
+function goBack(){ showScreen('subjects'); }
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ══ Float tips ═══════════════════════════════ */
+const floatTips = [
+  "Click any subject to start! 😊",
+  "Maths has 14 fun chapters! 🔢",
+  "Science = Super experiments! 🔬",
+  "Hindi stories are amazing! 🪔",
+  "You can do it, Champ! ⭐",
+  "EVS = Love our nature! 🌿",
+  "SST = World explorer! 🌍",
+];
+let fIdx=0;
+function miniJoJoClick(){
+  document.getElementById('float-bubble').textContent = floatTips[fIdx++ % floatTips.length];
+}
+
+/* ══ Init ═════════════════════════════════════ */
+window.addEventListener('load', ()=>{
+  // After entrance anim, switch to float
+  setTimeout(()=>{
+    const jw = document.getElementById('jojo-welcome');
+    jw.classList.remove('jojo-entrance');
+    jw.style.animation = 'jojoFloat 3.2s ease-in-out infinite';
+  }, 900);
+  setTimeout(typeNext, 1000);
+  setInterval(()=>{
+    if(document.getElementById('float-jojo').style.display !== 'none') miniJoJoClick();
+  }, 5500);
+});
+</script>
+</body>
+</html>
