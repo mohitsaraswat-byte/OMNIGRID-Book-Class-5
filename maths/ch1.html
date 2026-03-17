@@ -309,8 +309,8 @@ button:focus-visible{outline:3px solid #FF9F43;outline-offset:2px}
   position: fixed;
   z-index: 8000;
   width: clamp(260px, 82vw, 360px);
-  max-height: 85vh; /* Fix: Limits height to screen */
-  overflow-y: auto; /* Fix: Allows scrolling */
+  max-height: 85vh; /* ADDED: scrolling fix */
+  overflow-y: auto; /* ADDED: scrolling fix */
   background: #fff;
   border-radius: 22px;
   box-shadow: 0 12px 48px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.1);
@@ -337,13 +337,17 @@ button:focus-visible{outline:3px solid #FF9F43;outline-offset:2px}
   font-size: clamp(15px, 4vw, 18px);
   line-height: 1.1;
 }
+
+/* ✨ UPDATED CLOSE BUTTON FOR LAPTOP AND MOBILE ✨ */
 .jp-close {
-  width: 34px; height: 34px; border-radius: 50%;
+  width: 36px; height: 36px; border-radius: 50%;
   background: rgba(0,0,0,0.1); border: none;
   font-size: 16px; font-weight: bold; cursor: pointer; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
   transition: background 0.18s;
-  position: relative; z-index: 9999; /* Fix: ensures it sits on top */
+  position: relative; z-index: 9999;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 .jp-close:hover { background: rgba(0,0,0,0.2); }
 
@@ -641,7 +645,7 @@ button:focus-visible{outline:3px solid #FF9F43;outline-offset:2px}
 </head>
 <body>
 
-<div id="jp-overlay" onclick="closeJP()"></div>
+<div id="jp-overlay" onclick="closeJP(event)" ontouchend="closeJP(event)"></div>
 <div class="jp" id="jojo-popup">
   <div class="jp-head" id="jp-head">
     <div class="jp-jojo" id="jp-jojo-svg"></div>
@@ -649,7 +653,7 @@ button:focus-visible{outline:3px solid #FF9F43;outline-offset:2px}
       <div class="jp-type" id="jp-type">JoJo Explains</div>
       <div class="jp-term" id="jp-term">Place Value</div>
     </div>
-    <button class="jp-close" onclick="closeJP(); event.stopPropagation();">✕</button>
+    <button type="button" class="jp-close" onclick="closeJP(event)" ontouchend="closeJP(event)">✕</button>
   </div>
   <div class="jp-body">
     <div class="jp-explanation" id="jp-explanation"></div>
