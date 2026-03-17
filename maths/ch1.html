@@ -474,6 +474,8 @@ button:focus-visible{outline:3px solid #FF9F43;outline-offset:2px}
   z-index: 7999;
   background: rgba(0,0,0,0.18);
   backdrop-filter: blur(1px);
+  /* ✨ NEW: Completely blocks background interaction ✨ */
+  touch-action: none;
 }
 #jp-overlay.show { display: block; }
 
@@ -1789,6 +1791,9 @@ function openJP(key, triggerEl){
   // Position popup near trigger element
   positionPopup(popup, triggerEl);
 
+  // ✨ NEW: FREEZE THE BACKGROUND ✨
+  document.body.style.overflow = 'hidden';
+
   popup.classList.add('show');
   overlay.classList.add('show');
   jpOpen = true;
@@ -1827,11 +1832,25 @@ function positionPopup(popup, triggerEl){
   popup.style.left = left + 'px';
 }
 
-function closeJP(){
-  document.getElementById('jojo-popup').classList.remove('show');
-  document.getElementById('jp-overlay').classList.remove('show');
+// ✨ UPDATED CLOSE FUNCTION WITH EXPLICIT HIDE & UNFREEZE ✨
+function closeJP(e){
+  if(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  const popup = document.getElementById('jojo-popup');
+  const overlay = document.getElementById('jp-overlay');
+
+  popup.classList.remove('show');
+  popup.style.display = 'none'; // Forces the browser to erase the box
+  
+  overlay.classList.remove('show');
+  
   document.querySelectorAll('.jt.active,.jt-badge.active').forEach(el=>el.classList.remove('active'));
   jpOpen = false;
+
+  // ✨ UNFREEZE THE BACKGROUND ✨
+  document.body.style.overflow = '';
 }
 
 function handleJPTry(){
@@ -2007,8 +2026,6 @@ If anything is unclear, scroll back up and re-open that section. Once you feel c
   const tip = tips[id];
   if(tip) setTimeout(()=> openPanel(id + '_open', tip), 400);
 }
-
-
 
 </script>
 </body>
