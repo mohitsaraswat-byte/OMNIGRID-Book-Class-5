@@ -467,14 +467,16 @@ button:focus-visible{outline:3px solid #FF9F43;outline-offset:2px}
 .jp-mini-fb.good { background: #ECFDF5; color: #065F46; border-left: 3px solid #06D6A0; }
 .jp-mini-fb.bad  { background: #FEF2F2; color: #991B1B; border-left: 3px solid #FF6B6B; }
 
-/* Overlay backdrop (mobile tap-outside-to-close) */
+/* ✨ UPDATED: BULLETPROOF BACKGROUND OVERLAY ✨ */
 #jp-overlay {
   display: none;
-  position: fixed; inset: 0;
+  position: fixed; 
+  /* Replaced 'inset' with absolute coordinates so it never fails */
+  top: 0; left: 0; right: 0; bottom: 0; 
+  width: 100vw; height: 100vh;
   z-index: 7999;
-  background: rgba(0,0,0,0.18);
+  background: rgba(0,0,0,0.4); /* Made darker so you know it's working */
   backdrop-filter: blur(1px);
-  /* ✨ NEW: Completely blocks background interaction ✨ */
   touch-action: none;
 }
 #jp-overlay.show { display: block; }
@@ -1791,11 +1793,14 @@ function openJP(key, triggerEl){
   // Position popup near trigger element
   positionPopup(popup, triggerEl);
 
-  // ✨ NEW: FREEZE THE BACKGROUND ✨
+  // ✨ EXPLICITLY SHOW AND FREEZE ✨
   document.body.style.overflow = 'hidden';
-
-  popup.classList.add('show');
+  overlay.style.display = 'block';
   overlay.classList.add('show');
+  
+  popup.style.display = 'block';
+  popup.classList.add('show');
+  
   jpOpen = true;
 
   // Mark term as active
@@ -1832,24 +1837,32 @@ function positionPopup(popup, triggerEl){
   popup.style.left = left + 'px';
 }
 
-// ✨ UPDATED CLOSE FUNCTION WITH EXPLICIT HIDE & UNFREEZE ✨
+// ✨ BULLETPROOF CLOSE FUNCTION ✨
 function closeJP(e){
-  if(e) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
-  const popup = document.getElementById('jojo-popup');
-  const overlay = document.getElementById('jp-overlay');
-
-  popup.classList.remove('show');
-  popup.style.display = 'none'; // Forces the browser to erase the box
+  // Safety net: Stops errors if 'e' isn't properly formatted by older browsers
+  try {
+    if(e && typeof e.preventDefault === 'function') {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  } catch(err) { console.log(err); }
   
+  // 1. Explicitly hide the popup box
+  const popup = document.getElementById('jojo-popup');
+  popup.style.display = 'none'; 
+  popup.classList.remove('show');
+  
+  // 2. Explicitly hide the background shield
+  const overlay = document.getElementById('jp-overlay');
+  overlay.style.display = 'none';
   overlay.classList.remove('show');
   
-  document.querySelectorAll('.jt.active,.jt-badge.active').forEach(el=>el.classList.remove('active'));
+  // 3. Remove highlights from text
+  document.querySelectorAll('.jt.active,.jt-badge.active').forEach(el => el.classList.remove('active'));
+  
   jpOpen = false;
 
-  // ✨ UNFREEZE THE BACKGROUND ✨
+  // 4. Unfreeze the background
   document.body.style.overflow = '';
 }
 
