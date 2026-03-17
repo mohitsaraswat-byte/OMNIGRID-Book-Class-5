@@ -1129,7 +1129,8 @@ function openSubject(key){
     div.onmouseout  = ()=> div.style.borderColor = 'transparent';
     div.onclick = ()=>{
       spawnSparkles();
-      setTimeout(()=>alert(`📖 Opening "${ch}" from ${s.name}!\n\n(Lesson content coming soon!)`), 200);
+      // Navigate to chapter file: e.g. maths/ch1.html
+      setTimeout(()=>{ window.location.href = `${key}/ch${i+1}.html`; }, 250);
     };
     list.appendChild(div);
   });

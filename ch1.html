@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>The Fish Tale – Maths Ch.1 | OMNIGRID</title>
+
+<!--
+  ╔══════════════════════════════════════════════════════╗
+  ║  HOW TO ADD YOUR OWN CONTENT                        ║
+  ║  ─────────────────────────────────────────────────  ║
+  ║  Search for the comment tags below:                 ║
+  ║                                                     ║
+  ║  <!-- ✏️ EDIT: ... -->   ← Change text here        ║
+  ║  <!-- ➕ ADD: ... -->    ← Add more items here     ║
+  ║                                                     ║
+  ║  That's it! You never need to touch the CSS or JS.  ║
+  ╚══════════════════════════════════════════════════════╝
+-->
+
+<link rel="stylesheet" href="../assets/chapter.css">
+<style>
+  /* ── Subject accent colour for THIS chapter ──
+     Change --accent and --accent-dark to match
+     the subject colour from the main book.
+     Maths = yellow/orange  */
+  :root {
+    --accent:      #FF9F43;
+    --accent-dark: #C05E00;
+    --accent-light:#FFF3E0;
+    --header-bg:   linear-gradient(135deg,#FFD93D,#F4A800);
+    --header-txt:  #4A2000;
+  }
+  .ch-header   { background: var(--header-bg); color: var(--header-txt); }
+  .ch-back     { color: var(--header-txt); }
+  .section-title { color: var(--accent-dark); }
+  .sec-icon    { background: var(--accent-light); }
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══════════════════════════════════════ -->
+<header class="ch-header">
+  <!-- ✏️ EDIT: href points to your chapter list page -->
+  <a class="ch-back" href="../index.html">← Back</a>
+
+  <div class="ch-header-info">
+    <!-- ✏️ EDIT: Subject name -->
+    <div class="subject-name">Mathematics · Chapter 1</div>
+    <!-- ✏️ EDIT: Chapter title -->
+    <h1>The Fish Tale</h1>
+  </div>
+
+  <div class="ch-progress-pill" id="progress-pill">Ch 1 of 14</div>
+</header>
+
+
+<!-- ══ PAGE BODY ════════════════════════════════════ -->
+<main class="ch-body">
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       SECTION 1 — JOJO TIP
+       JoJo greets the student and gives
+       a fun hook for the chapter.
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="jojo-tip" style="animation-delay:0.05s">
+    <div id="jojo-icon"></div><!-- JoJo SVG injected by JS -->
+    <div class="jojo-tip-text">
+      <div class="tip-label">JoJo Says 👋</div>
+      <!-- ✏️ EDIT: JoJo's opening tip for this chapter -->
+      <p>Hey Champ! 🐟 Did you know fishermen use big numbers every day?
+         In this chapter we'll learn big numbers through the world of fishing!
+         It's going to be a LOT of fun! 🎣</p>
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       SECTION 2 — INTRODUCTION
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" style="animation-delay:0.1s">
+    <div class="section-title">
+      <div class="sec-icon">📖</div>
+      Introduction
+    </div>
+
+    <div class="intro-card">
+      <!-- ✏️ EDIT: Introduction paragraph(s) -->
+      <p>
+        Have you ever been to a fish market? Fishermen go deep into the sea every day
+        and bring back <strong>thousands</strong> of fish. They use very large numbers
+        to count how many fish they catch!
+      </p>
+      <br>
+      <p>
+        In this chapter, we will learn how to <strong>read, write and understand
+        large numbers</strong> — just like fishermen do. We will also learn how to
+        <strong>compare</strong> big numbers and understand their place values.
+      </p>
+      <br>
+      <p>
+        The number system we use is called the <strong>Hindu-Arabic number system</strong>.
+        It uses ten digits: <strong>0, 1, 2, 3, 4, 5, 6, 7, 8, 9</strong> — and by
+        combining these we can write any number in the world!
+      </p>
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       SECTION 3 — KEY CONCEPTS
+       Add or remove .concept-card blocks.
+       Pick any background colour you like.
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" style="animation-delay:0.15s">
+    <div class="section-title">
+      <div class="sec-icon">💡</div>
+      Key Concepts
+    </div>
+
+    <div class="concepts-grid">
+
+      <!-- ✏️ EDIT each card: icon, title, description, colours -->
+      <div class="concept-card" style="background:linear-gradient(145deg,#FFD93D,#F4C200);color:#4A2000;">
+        <div class="concept-icon">🔢</div>
+        <div class="concept-title">Place Value</div>
+        <div class="concept-desc">
+          Each digit in a number has a <strong>place</strong> — ones, tens,
+          hundreds, thousands and so on.
+        </div>
+      </div>
+
+      <div class="concept-card" style="background:linear-gradient(145deg,#FF9F43,#E07B00);color:#2D0F00;">
+        <div class="concept-icon">📊</div>
+        <div class="concept-title">Large Numbers</div>
+        <div class="concept-desc">
+          Numbers beyond 999 have more place values:
+          <strong>10,000 = ten thousand</strong> and beyond!
+        </div>
+      </div>
+
+      <div class="concept-card" style="background:linear-gradient(145deg,#4CC9F0,#1AAFDC);color:#001826;">
+        <div class="concept-icon">⚖️</div>
+        <div class="concept-title">Comparing Numbers</div>
+        <div class="concept-desc">
+          To compare, always start from the <strong>leftmost digit</strong>.
+          More digits = bigger number.
+        </div>
+      </div>
+
+      <div class="concept-card" style="background:linear-gradient(145deg,#06D6A0,#00B884);color:#001F16;">
+        <div class="concept-icon">🔄</div>
+        <div class="concept-title">Expanded Form</div>
+        <div class="concept-desc">
+          3,456 = <strong>3000 + 400 + 50 + 6</strong>.
+          Breaking a number into place values.
+        </div>
+      </div>
+
+      <!-- ➕ ADD more concept cards by copying one block above -->
+
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       SECTION 4 — DID YOU KNOW?
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" style="animation-delay:0.2s">
+    <div class="section-title">
+      <div class="sec-icon">🌟</div>
+      Did You Know?
+    </div>
+
+    <!-- ✏️ EDIT: Fun fact content -->
+    <div class="dyk-box">
+      <div class="dyk-icon">🐟</div>
+      <div class="dyk-content">
+        <div class="dyk-label">Fun Fishing Fact!</div>
+        <p>
+          India is one of the world's largest fish-producing countries!
+          Every year, Indian fishermen catch over <strong>1,40,00,000</strong>
+          (1 crore 40 lakh) tonnes of fish. That's a LOT of zeros! 😮
+          Our number system makes it easy to write and read such big numbers.
+        </p>
+      </div>
+    </div>
+
+    <!-- ➕ ADD more dyk-box blocks for extra facts -->
+    <br>
+    <div class="dyk-box">
+      <div class="dyk-icon">🧮</div>
+      <div class="dyk-content">
+        <div class="dyk-label">Number System Fact!</div>
+        <p>
+          The number <strong>zero (0)</strong> was invented in India by the
+          mathematician <strong>Brahmagupta</strong> around 628 AD.
+          Without zero, we couldn't write numbers like 10, 100 or 1000!
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       SECTION 5 — ACTIVITY
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" style="animation-delay:0.25s">
+    <div class="section-title">
+      <div class="sec-icon">🎨</div>
+      Let's Do an Activity!
+    </div>
+
+    <div class="activity-box">
+      <!-- ✏️ EDIT: Activity name -->
+      <div class="act-label">🎣 Fish Market Game</div>
+      <!-- ✏️ EDIT: Activity steps -->
+      <ol class="activity-steps">
+        <li><span class="step-num">1</span>
+          Ask a family member for any 5-digit number (e.g., 34,567).
+        </li>
+        <li><span class="step-num">2</span>
+          Write it in your notebook and circle each digit.
+        </li>
+        <li><span class="step-num">3</span>
+          Write the <strong>place value</strong> of each digit — ones, tens,
+          hundreds, thousands, ten-thousands.
+        </li>
+        <li><span class="step-num">4</span>
+          Now write it in <strong>expanded form</strong>
+          (e.g., 30,000 + 4,000 + 500 + 60 + 7).
+        </li>
+        <li><span class="step-num">5</span>
+          Share your answer with a friend or parent! 🎉
+        </li>
+      </ol>
+      <!-- ➕ ADD more steps by copying a <li> block -->
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       SECTION 6 — QUIZ
+       Add questions by copying a .q-item
+       block. correct: is 0-indexed (0=A).
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" style="animation-delay:0.3s">
+    <div class="section-title">
+      <div class="sec-icon">🎯</div>
+      Quick Quiz
+    </div>
+
+    <div class="quiz-box" id="quiz">
+      <div class="quiz-score-bar">
+        <div class="q-label">Answer all questions then submit!</div>
+        <div class="score-pill" id="score-pill">0 / 4</div>
+      </div>
+
+      <!-- ✏️ EDIT questions, options and correct index below -->
+
+      <!-- Question 1 -->
+      <div class="q-item" data-correct="1">
+        <div class="q-text">Q1. What is the place value of 4 in the number 34,567?</div>
+        <div class="q-options">
+          <button class="q-opt" onclick="selectOpt(this)"><span class="opt-letter">A</span> Hundreds</button>
+          <button class="q-opt" onclick="selectOpt(this)"><span class="opt-letter">B</span> Thousands</button>
+          <button class="q-opt" onclick="selectOpt(this)"><span class="opt-letter">C</span> Tens</button>
+          <button class="q-opt" onclick="selectOpt(this)"><span class="opt-letter">D</span> Ten-Thousands</button>
+        </div>
+        <div class="q-feedback">
+          <!-- ✏️ EDIT: explanation shown after answer -->
+          ✅ Correct! In 34,567 — the digit 4 is in the <strong>thousands</strong> place (4 × 1000 = 4,000).
+        </div>
+      </div>
+
+      <!-- Question 2 -->
+      <div class="q-item" data-correct="2">
+        <div class="q-text">Q2. Which number is the largest?</div>
+        <div class="q-options">
+          <button class="q-opt" onclick="selectOpt(this)"><span class="opt-letter">A</span> 9,999</button>
+          <button class="q-opt" onclick="selectOpt(this)"><span class="opt-letter">B</span> 10,001</button>
+          <button class="q-opt" onclick="selectOpt(this)"><span class="opt-letter">C</span> 10,100</button>
+          <button class="q-opt" onclick="selectOpt(this)"><span class="opt-letter">D</span> 10,010</button>
+        </div>
+        <div class="q-feedback"></div>
+      </div>
+
+      <!-- Question 3 -->
+      <div class="q-item" data-correct="0">
+        <div class="q-text">Q3. What is the expanded form of 5,308?</div>
+        <div class="q-options">
+          <button class="q-opt" onclick="selectOpt(this)"><span class="opt-letter">A</span> 5000 + 300 + 8</button>
+          <button class="q-opt" onclick="selectOpt(this)"><span class="opt-letter">B</span> 5000 + 300 + 80</button>
+          <button class="q-opt" onclick="selectOpt(this)"><span class="opt-letter">C</span> 500 + 300 + 8</button>
+          <button class="q-opt" onclick="selectOpt(this)"><span class="opt-letter">D</span> 5000 + 30 + 8</button>
+        </div>
+        <div class="q-feedback"></div>
+      </div>
+
+      <!-- Question 4 -->
+      <div class="q-item" data-correct="3">
+        <div class="q-text">Q4. How many zeros are there in Ten Thousand (10,000)?</div>
+        <div class="q-options">
+          <button class="q-opt" onclick="selectOpt(this)"><span class="opt-letter">A</span> 2</button>
+          <button class="q-opt" onclick="selectOpt(this)"><span class="opt-letter">B</span> 3</button>
+          <button class="q-opt" onclick="selectOpt(this)"><span class="opt-letter">C</span> 5</button>
+          <button class="q-opt" onclick="selectOpt(this)"><span class="opt-letter">D</span> 4</button>
+        </div>
+        <div class="q-feedback"></div>
+      </div>
+
+      <!-- ➕ ADD more questions by copying a .q-item block above -->
+
+      <button class="quiz-submit-btn" id="submit-btn" onclick="submitQuiz()" disabled>
+        Submit Answers 🎯
+      </button>
+
+      <!-- Result shown after submit -->
+      <div class="quiz-result" id="quiz-result">
+        <h3 id="result-title"></h3>
+        <p  id="result-msg"></p>
+        <button class="quiz-retry-btn" onclick="retryQuiz()">🔄 Try Again</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       SECTION 7 — SUMMARY
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section" style="animation-delay:0.35s">
+    <div class="section-title">
+      <div class="sec-icon">📝</div>
+      Chapter Summary
+    </div>
+
+    <div class="summary-box">
+      <div class="sum-label">✅ What You Learned Today</div>
+      <ul class="summary-points">
+
+        <!-- ✏️ EDIT summary points -->
+        <li><span class="sum-dot">1</span>
+          Every digit in a number has a <strong>place value</strong> — ones, tens, hundreds, thousands, ten-thousands.
+        </li>
+        <li><span class="sum-dot">2</span>
+          To compare two numbers, count the digits first. More digits = bigger number.
+        </li>
+        <li><span class="sum-dot">3</span>
+          <strong>Expanded form</strong> means breaking a number into its place values added together.
+        </li>
+        <li><span class="sum-dot">4</span>
+          Large numbers are used in real life — like counting fish, population, money!
+        </li>
+        <li><span class="sum-dot">5</span>
+          Zero (0) is a very important digit — it holds a place value even when empty.
+        </li>
+
+        <!-- ➕ ADD more summary points by copying a <li> block -->
+      </ul>
+    </div>
+  </div>
+
+  <!-- bottom padding for fixed nav bar -->
+  <div style="height:70px"></div>
+
+</main>
+
+
+<!-- ══ BOTTOM NAV BAR ═══════════════════════════════ -->
+<div class="ch-nav-inner">
+  <!-- ✏️ EDIT: prev chapter link (or hide if Ch 1) -->
+  <button class="nav-btn prev" onclick="window.location.href='../index.html'">
+    ← Chapters
+  </button>
+
+  <!-- Mark as done button -->
+  <button class="nav-done" id="done-btn" onclick="markDone()">
+    ✅ Mark as Done
+  </button>
+
+  <!-- ✏️ EDIT: next chapter link -->
+  <button class="nav-btn next" onclick="window.location.href='ch2.html'">
+    Next Ch →
+  </button>
+</div>
+
+
+<!-- ══ SCRIPTS ══════════════════════════════════════ -->
+<script src="../assets/jojo.js"></script>
+<script>
+
+/* ── Config — change these for each chapter ──────── */
+const SUBJECT  = 'maths';   // must match key in subjects object
+const CH_NUM   = 1;         // chapter number
+
+/* ── Inject JoJo icon ────────────────────────────── */
+document.getElementById('jojo-icon').innerHTML = jojoSVG(64, 78);
+
+/* ── Quiz logic ──────────────────────────────────── */
+let answers = {};   // { qIndex: optIndex }
+const questions = document.querySelectorAll('.q-item');
+const total     = questions.length;
+
+function selectOpt(btn) {
+  const qItem = btn.closest('.q-item');
+  const qIdx  = [...questions].indexOf(qItem);
+  // Deselect others in this question
+  qItem.querySelectorAll('.q-opt').forEach(o => o.classList.remove('selected'));
+  btn.classList.add('selected');
+  answers[qIdx] = [...qItem.querySelectorAll('.q-opt')].indexOf(btn);
+  // Update submit button
+  const answered = Object.keys(answers).length;
+  document.getElementById('submit-btn').disabled = (answered < total);
+  document.getElementById('score-pill').textContent = `${answered} / ${total}`;
+}
+
+function submitQuiz() {
+  let score = 0;
+  questions.forEach((qItem, qi) => {
+    const correct  = parseInt(qItem.dataset.correct);
+    const selected = answers[qi];
+    const opts     = qItem.querySelectorAll('.q-opt');
+    const feedback = qItem.querySelector('.q-feedback');
+
+    opts.forEach((o,i) => {
+      o.disabled = true;
+      if(i === correct)  o.classList.add('correct');
+      if(i === selected && i !== correct) o.classList.add('wrong');
+    });
+
+    if(selected === correct) {
+      score++;
+      feedback.classList.add('show','good');
+      if(!feedback.textContent.trim())
+        feedback.textContent = '✅ Correct! Well done! 🎉';
+    } else {
+      feedback.classList.add('show','bad');
+      if(!feedback.textContent.trim())
+        feedback.textContent = `❌ The correct answer was option ${String.fromCharCode(65+correct)}.`;
+    }
+  });
+
+  document.getElementById('submit-btn').style.display = 'none';
+  document.getElementById('score-pill').textContent   = `${score} / ${total}`;
+
+  const res   = document.getElementById('quiz-result');
+  const title = document.getElementById('result-title');
+  const msg   = document.getElementById('result-msg');
+
+  if(score === total) {
+    res.style.background = 'linear-gradient(135deg,#ECFDF5,#D1FAE5)';
+    res.style.border      = '2.5px solid #06D6A0';
+    title.textContent     = `🏆 Perfect Score! ${score}/${total}`;
+    msg.textContent       = 'Amazing work, Champ! JoJo is so proud of you! 🎉';
+    spawnSparkles(10);
+  } else if(score >= Math.ceil(total/2)) {
+    res.style.background = 'linear-gradient(135deg,#FFFBEB,#FEF3C7)';
+    res.style.border      = '2.5px solid #FFD93D';
+    title.textContent     = `⭐ Good Job! ${score}/${total}`;
+    msg.textContent       = 'You are doing great! Review the wrong ones and try again!';
+    spawnSparkles(5);
+  } else {
+    res.style.background = 'linear-gradient(135deg,#FEF2F2,#FEE2E2)';
+    res.style.border      = '2.5px solid #FF6B6B';
+    title.textContent     = `💪 Keep Going! ${score}/${total}`;
+    msg.textContent       = "Don't give up! Read the chapter again and retry. You've got this!";
+  }
+  res.classList.add('show');
+}
+
+function retryQuiz() {
+  answers = {};
+  questions.forEach(qItem => {
+    qItem.querySelectorAll('.q-opt').forEach(o => {
+      o.classList.remove('selected','correct','wrong');
+      o.disabled = false;
+    });
+    const fb = qItem.querySelector('.q-feedback');
+    fb.classList.remove('show','good','bad');
+  });
+  document.getElementById('quiz-result').classList.remove('show');
+  document.getElementById('submit-btn').style.display = 'block';
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('score-pill').textContent = `0 / ${total}`;
+}
+
+/* ── Mark done ───────────────────────────────────── */
+function markDone() {
+  Progress.markDone(SUBJECT, CH_NUM);
+  spawnSparkles(8);
+  const btn = document.getElementById('done-btn');
+  btn.textContent = '🎉 Chapter Done!';
+  btn.style.background = 'linear-gradient(135deg,#FFD93D,#F4A800)';
+  btn.style.color = '#4A2000';
+  btn.disabled = true;
+}
+
+/* ── Check if already done ───────────────────────── */
+window.addEventListener('load', () => {
+  if(Progress.isDone(SUBJECT, CH_NUM)) {
+    const btn = document.getElementById('done-btn');
+    btn.textContent  = '🎉 Already Done!';
+    btn.style.background = 'linear-gradient(135deg,#FFD93D,#F4A800)';
+    btn.style.color  = '#4A2000';
+    btn.disabled     = true;
+  }
+});
+
+</script>
+</body>
+</html>
