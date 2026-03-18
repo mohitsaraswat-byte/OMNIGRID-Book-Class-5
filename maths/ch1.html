@@ -309,8 +309,8 @@ button:focus-visible{outline:3px solid #FF9F43;outline-offset:2px}
   position: fixed;
   z-index: 8000;
   width: clamp(260px, 82vw, 360px);
-  max-height: 85vh; /* ADDED: scrolling fix */
-  overflow-y: auto; /* ADDED: scrolling fix */
+  max-height: 85vh;
+  overflow-y: auto;
   background: #fff;
   border-radius: 22px;
   box-shadow: 0 12px 48px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.1);
@@ -338,7 +338,7 @@ button:focus-visible{outline:3px solid #FF9F43;outline-offset:2px}
   line-height: 1.1;
 }
 
-/* ✨ UPDATED CLOSE BUTTON FOR LAPTOP AND MOBILE ✨ */
+/* ✨ CLOSE BUTTON ✨ */
 .jp-close {
   width: 36px; height: 36px; border-radius: 50%;
   background: rgba(0,0,0,0.1); border: none;
@@ -467,15 +467,12 @@ button:focus-visible{outline:3px solid #FF9F43;outline-offset:2px}
 .jp-mini-fb.good { background: #ECFDF5; color: #065F46; border-left: 3px solid #06D6A0; }
 .jp-mini-fb.bad  { background: #FEF2F2; color: #991B1B; border-left: 3px solid #FF6B6B; }
 
-/* ✨ UPDATED: BULLETPROOF BACKGROUND OVERLAY ✨ */
+/* Overlay backdrop (mobile tap-outside-to-close) */
 #jp-overlay {
   display: none;
-  position: fixed; 
-  /* Replaced 'inset' with absolute coordinates so it never fails */
-  top: 0; left: 0; right: 0; bottom: 0; 
-  width: 100vw; height: 100vh;
+  position: fixed; inset: 0;
   z-index: 7999;
-  background: rgba(0,0,0,0.4); /* Made darker so you know it's working */
+  background: rgba(0,0,0,0.18);
   backdrop-filter: blur(1px);
   touch-action: none;
 }
@@ -729,6 +726,9 @@ button:focus-visible{outline:3px solid #FF9F43;outline-offset:2px}
 <main class="ch-body">
 <div class="acc-progress" id="acc-progress">
   <div class="acc-dot active" id="dot-intro"    title="Introduction"   onclick="toggleAcc('intro')"></div>
+  
+  <div class="acc-dot"        id="dot-reading"  title="Read Chapter"   onclick="toggleAcc('reading')"></div>
+  
   <div class="acc-dot"        id="dot-concepts" title="Key Concepts"   onclick="toggleAcc('concepts')"></div>
   <div class="acc-dot"        id="dot-dyk"      title="Did You Know"   onclick="toggleAcc('dyk')"></div>
   <div class="acc-dot"        id="dot-activity" title="Activity"       onclick="toggleAcc('activity')"></div>
@@ -780,6 +780,31 @@ button:focus-visible{outline:3px solid #FF9F43;outline-offset:2px}
           <svg viewBox="0 0 80 100" width="36" height="44"><ellipse cx="9" cy="48" rx="6" ry="8" fill="#FFD166"/><ellipse cx="71" cy="48" rx="6" ry="8" fill="#FFD166"/><ellipse cx="40" cy="46" rx="26" ry="28" fill="#FFD166"/><rect x="14" y="20" width="52" height="8" rx="4" fill="#FF6B35"/><rect x="24" y="6" width="32" height="16" rx="6" fill="#FF8C5A"/><text x="40" y="17" font-size="8" fill="#fff" text-anchor="middle">★</text><ellipse cx="27" cy="38" rx="6" ry="6" fill="white"/><ellipse cx="53" cy="38" rx="6" ry="6" fill="white"/><circle cx="27" cy="38" r="3.5" fill="#1E1000"/><circle cx="53" cy="38" r="3.5" fill="#1E1000"/><circle cx="25" cy="36" r="1.2" fill="white"/><circle cx="51" cy="36" r="1.2" fill="white"/><ellipse cx="20" cy="52" rx="5" ry="3" fill="#FF9999" opacity="0.65"/><ellipse cx="60" cy="52" rx="5" ry="3" fill="#FF9999" opacity="0.65"/><path d="M30,56 Q40,63 50,56" stroke="#B84A00" stroke-width="2.2" fill="none" stroke-linecap="round"/><rect x="24" y="72" width="32" height="16" rx="8" fill="#FF6B35"/></svg>
         </div>
         <div class="acc-jojo-msg">Tap JoJo for a tip! 👆</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="acc-item" id="acc-reading" style="animation-delay:0.06s">
+    <button class="acc-bubble" onclick="toggleAcc('reading')"
+      style="background:linear-gradient(135deg,#FF6B35,#FF9F43);">
+      <span class="acc-bubble-icon">📚</span>
+      <div class="acc-bubble-text"><span class="acc-bubble-title">Read the Chapter</span><span class="acc-bubble-sub">The complete story and details</span></div>
+      <span class="acc-arrow">▶</span>
+    </button>
+    <div class="acc-body" id="body-reading">
+      <div class="intro-card">
+        <p><strong>Deep under the sea...</strong></p>
+        <br>
+        <p>This is where you will paste the full, detailed text of the chapter. You can write as much as you want here! You can add stories about the different types of boats (log boats, motor boats), how far they travel, and the loans the fisherwomen take.</p>
+        <br>
+        <p>You can even add interactive <span class="jt" data-key="place_value">words</span> right here in the middle of the story to test them while they read!</p>
+      </div>
+      
+      <div class="acc-jojo-row">
+        <div class="acc-jojo-face" onclick="checkpointClick('reading')">
+          <svg viewBox="0 0 80 100" width="36" height="44"><ellipse cx="9" cy="48" rx="6" ry="8" fill="#FFD166"/><ellipse cx="71" cy="48" rx="6" ry="8" fill="#FFD166"/><ellipse cx="40" cy="46" rx="26" ry="28" fill="#FFD166"/><rect x="14" y="20" width="52" height="8" rx="4" fill="#FF6B35"/><rect x="24" y="6" width="32" height="16" rx="6" fill="#FF8C5A"/><text x="40" y="17" font-size="8" fill="#fff" text-anchor="middle">★</text><ellipse cx="27" cy="38" rx="6" ry="6" fill="white"/><ellipse cx="53" cy="38" rx="6" ry="6" fill="white"/><circle cx="27" cy="38" r="3.5" fill="#1E1000"/><circle cx="53" cy="38" r="3.5" fill="#1E1000"/><circle cx="25" cy="36" r="1.2" fill="white"/><circle cx="51" cy="36" r="1.2" fill="white"/><ellipse cx="20" cy="52" rx="5" ry="3" fill="#FF9999" opacity="0.65"/><ellipse cx="60" cy="52" rx="5" ry="3" fill="#FF9999" opacity="0.65"/><path d="M30,56 Q40,63 50,56" stroke="#B84A00" stroke-width="2.2" fill="none" stroke-linecap="round"/><rect x="24" y="72" width="32" height="16" rx="8" fill="#FF6B35"/></svg>
+        </div>
+        <div class="acc-jojo-msg">Tap JoJo for a reading tip! 📖</div>
       </div>
     </div>
   </div>
@@ -1005,6 +1030,13 @@ numbers every single day. The Hindu-Arabic number system — the one we all
 use — was actually invented right here in India! Pretty cool, right?
 Now get ready, because the key concepts coming up next will show you
 exactly HOW these big numbers work. Take your time reading each card! 😊`
+  },
+  /* ✨ NEW JOJO REACTION FOR THE READING SECTION ✨ */
+  reading: {
+    mood:'happy', color:'#E8F8FF', border:'#4CC9F0', titleColor:'#002A3A',
+    moodLabel:'Great Reading! 📖', 
+    title:"You read the story!",
+    msg:`Awesome! You just read the detailed story of the fishermen and their boats. Now let's dive into the Math behind it in the Key Concepts section! 😊`
   },
   concepts: {
     mood:'excited', color:'#E8FFF4', border:'#06D6A0', titleColor:'#005A3C',
@@ -1793,14 +1825,11 @@ function openJP(key, triggerEl){
   // Position popup near trigger element
   positionPopup(popup, triggerEl);
 
-  // ✨ EXPLICITLY SHOW AND FREEZE ✨
+  // ✨ FREEZE THE BACKGROUND ✨
   document.body.style.overflow = 'hidden';
-  overlay.style.display = 'block';
-  overlay.classList.add('show');
-  
-  popup.style.display = 'block';
+
   popup.classList.add('show');
-  
+  overlay.classList.add('show');
   jpOpen = true;
 
   // Mark term as active
@@ -1837,32 +1866,23 @@ function positionPopup(popup, triggerEl){
   popup.style.left = left + 'px';
 }
 
-// ✨ BULLETPROOF CLOSE FUNCTION ✨
 function closeJP(e){
-  // Safety net: Stops errors if 'e' isn't properly formatted by older browsers
-  try {
-    if(e && typeof e.preventDefault === 'function') {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-  } catch(err) { console.log(err); }
-  
-  // 1. Explicitly hide the popup box
+  if(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
   const popup = document.getElementById('jojo-popup');
-  popup.style.display = 'none'; 
-  popup.classList.remove('show');
-  
-  // 2. Explicitly hide the background shield
   const overlay = document.getElementById('jp-overlay');
-  overlay.style.display = 'none';
+
+  popup.classList.remove('show');
+  popup.style.display = 'none'; // Forces the browser to erase the box
+  
   overlay.classList.remove('show');
   
-  // 3. Remove highlights from text
-  document.querySelectorAll('.jt.active,.jt-badge.active').forEach(el => el.classList.remove('active'));
-  
+  document.querySelectorAll('.jt.active,.jt-badge.active').forEach(el=>el.classList.remove('active'));
   jpOpen = false;
 
-  // 4. Unfreeze the background
+  // ✨ UNFREEZE THE BACKGROUND ✨
   document.body.style.overflow = '';
 }
 
@@ -1940,7 +1960,8 @@ window.addEventListener('load', ()=>{
 /* ══ ACCORDION ════════════════════════════════════════
    toggleAcc(id) — opens one section, closes others
 ══════════════════════════════════════════════════════ */
-const ACC_ORDER = ['intro','concepts','dyk','activity','quiz','summary'];
+/* ✨ UPDATED: ADDED 'reading' TO ACCORDION ORDER ✨ */
+const ACC_ORDER = ['intro','reading','concepts','dyk','activity','quiz','summary'];
 let openSection = 'intro'; // intro starts open
 
 function toggleAcc(id){
@@ -2000,6 +2021,14 @@ function jojoOnSectionOpen(id){
   if(sectionOpenedOnce.has(id)) return;
   sectionOpenedOnce.add(id);
   const tips = {
+    /* ✨ NEW: READING SECTION JOJO TIP ✨ */
+    reading:{
+      mood:'excited', color:'#FFF9E0', border:'#FFD93D', titleColor:'#B8600A',
+      moodLabel:'Story Time! 📚', title:'Did you like the story?',
+      msg:`That was quite an adventure, wasn't it? 🌊
+Reading the full story helps you understand why we need Math in the real world — like counting fish and calculating loans!
+Ready to see how the numbers actually work? Tap the Key Concepts section next! 😊`
+    },
     concepts:{
       mood:'excited', color:'#E8FFF4', border:'#06D6A0', titleColor:'#005A3C',
       moodLabel:'Key Concepts! 💡', title:'4 big ideas await!',
